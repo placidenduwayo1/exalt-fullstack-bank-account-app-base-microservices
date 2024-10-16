@@ -1,0 +1,25 @@
+services:
+  #-------------- database instance-------------------
+  bank-account-app-users:
+    image: mysql:8.0
+    container_name: bank-account-app-users
+    restart: no
+    ports:
+      - "3306:3306"
+    networks:
+      - bank-account-apis
+    environment:
+      MYSQL_DATABASE: bank_account_app_users
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-proot" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - bank_account_app_users_volume:/var/lib/mysql
+
+networks:
+  bank-account-apis:
+volumes:
+  bank_account_app_users_volume:
