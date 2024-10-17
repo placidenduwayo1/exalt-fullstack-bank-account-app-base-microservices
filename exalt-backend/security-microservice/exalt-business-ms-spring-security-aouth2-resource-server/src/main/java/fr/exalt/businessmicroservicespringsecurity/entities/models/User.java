@@ -13,13 +13,14 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "users_table", schema = "security_service_schema")
-public class UserModel {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "table_user_generator")
     @SequenceGenerator(
             name = "table_user_generator",
-            sequenceName = "table_user_id_seq"
+            sequenceName = "table_user_id_seq",
+            allocationSize = 1
     )
     @Column(name = "id")
     private Long userId;
@@ -36,5 +37,5 @@ public class UserModel {
             name = "users_roles_association_table", schema = "security_service_schema",
             joinColumns = {@JoinColumn(name = "user_Id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private Set<RoleModel> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 }

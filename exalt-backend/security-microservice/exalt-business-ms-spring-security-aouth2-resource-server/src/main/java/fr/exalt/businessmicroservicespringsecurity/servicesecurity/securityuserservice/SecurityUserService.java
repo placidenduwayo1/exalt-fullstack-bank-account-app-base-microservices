@@ -1,7 +1,6 @@
 package fr.exalt.businessmicroservicespringsecurity.servicesecurity.securityuserservice;
 
-import fr.exalt.businessmicroservicespringsecurity.entities.models.UserModel;
-import fr.exalt.businessmicroservicespringsecurity.exceptions.ExceptionE;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.User;
 import fr.exalt.businessmicroservicespringsecurity.exceptions.UserNotFoundException;
 import fr.exalt.businessmicroservicespringsecurity.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -24,21 +23,19 @@ public class SecurityUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserModel userModel = null;
+        User user = null;
         try {
-            userModel = userRepository.findByUsername(username).orElseThrow(
-                    () -> new UserNotFoundException(ExceptionE.USER_NOT_FOUND)
-            );
+            user = userRepository.findByUsername(username);
         } catch (UserNotFoundException e) {
             log.error(e.getMessage());
         }
-        assert userModel !=null;
+        assert user !=null;
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        userModel.getRoles().forEach(role -> {
+        user.getRoles().forEach(role -> {
             GrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
             authorities.add(authority);
         });
         return new org.springframework.security.core.userdetails
-                .User(userModel.getUsername(), userModel.getPwd(), authorities);
+                .User(user.getUsername(), user.getPwd(), authorities);
     }
 }

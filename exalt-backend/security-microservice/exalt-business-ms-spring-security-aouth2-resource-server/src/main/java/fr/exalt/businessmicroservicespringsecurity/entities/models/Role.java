@@ -10,13 +10,14 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "roles_table", schema = "security_service_schema")
-public class RoleModel {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "table_role_generator")
     @SequenceGenerator(
             name = "table_role_generator",
-            sequenceName = "table_role_id_seq"
+            sequenceName = "table_role_id_seq",
+            allocationSize = 1
     )
     @Column(name = "id")
     private Long roleId;
