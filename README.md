@@ -56,7 +56,7 @@ Chaque microservice métier est implémenté dans une **architecture hexagonale*
     - chaque microservice métier possède ses propres ressources (**db**,**dépendances**, **configurations**, ..), il peut évoluer dans son propre env 
 
 - Le microservice de ***security api*** pour assurer la sécurité des apis exposés par les microservices métiers:
-    - il définit des userModels et leurs rôles
+    - il définit des users et leurs rôles
     - authentifie un utilisateur et autorise l'accès à l'api backend selon son rôle (authority)
 
 - Les microservices utilitaires: , ***configuration-server***, ***registration-server*** et ***gateway-service***
@@ -64,7 +64,7 @@ Chaque microservice métier est implémenté dans une **architecture hexagonale*
     - *registration-server*: pour l'enregistrement et le loabalancing des microservices
         - ce service sera enlevé parce que j'utilise **Kubernetes** et ce dernier possède son **service d'enregistrement** et de **loadbalancing**
     - *gateway-service*: pour router dans les deux sens les requêtes entre le front et le back
-        - ce service sera enlevé parce que j'utilise **Kubernetes** et **ingress-controller** qui joue le roleModel de gateway
+        - ce service sera enlevé parce que j'utilise **Kubernetes** et **ingress-controller** qui joue le role de gateway
 
 - Le frontend est une ***application en Angular***
 
@@ -77,10 +77,12 @@ Chaque microservice métier est implémenté dans une **architecture hexagonale*
 L'application orientée microservice **Bank Account** est dimensionnée comme suit:
 
 # Backend
-- 3 business microservices ou microservices métiers
-- 1 business microservice de sécurité
-- les microservice métiers et sécurité mappent une base données ***MySQL*** déployée dans  un ***docker container***
-- 3 utils microservices ou microservices transverses
+- 3 business microservices ou microservices métiers: **bankaccount**, **customer** et **operation**
+    - les 3 microservice métiers mappent une base données ***PostgreSQL*** déployée dans  un ***docker container***
+- 1 business microservice de sécurité: **security-service**
+    - le microservice  de sécurité mappe une base de données **MySQL** déployée dans  un ***docker container*** pour gérér les **users** et les **roles**
+- 3 utils microservices ou microservices transverses: **configuration-service**, **registration-service** et **gateway-service-proxy**
+    - plus loin, **registration-service** et **gateway-service-proxy** seront remplacés par kubernetes (pour l'**enregistrement**, le **loadbalancing** et **ingress-controller**)
 
 ## Business microservices
 
@@ -123,32 +125,32 @@ le données des requêtes d'écriture dans la base de données pour chaque busin
 Pour accéder au **business microservices** et au **security microservice** en backend on passe par la ***gateway-service-proxy*** : ```http://localhost:8101```
 
 ### exalt-business-ms-spring-security-aouth2-resource-server
-- **[POST]**: ```http://localhost:8101/api-security/userModels```:  **créer** un userModel  
-request payload -> ![userModel-create](/assets/userModel-create.png)  response ->  ![userModel-create-response](/assets/userModel-create-return.png)  
-    - le userModel ne doit pas exister déjà
-    - le mail ne doit pas être possédé par un autre userModel
+- **[POST]**: ```http://localhost:8101/api-security/users```:  **créer** un user  
+request payload -> ![user-create](/assets/user-create.png)  response ->  ![user-create-response](/assets/user-create-return.png)  
+    - le user ne doit pas exister déjà
+    - le mail ne doit pas être possédé par un autre user
     - 
-- **[POST]**: ```http://localhost:8101/api-security/roleModels```: **créer** un roleModel  
-    - le roleModel ne doit pas exister déjà
-    - le roleModel doit être parmi une liste prédéfinie
-request payload -> ![roleModel-create](/assets/roleModel-create.png)  response ->  ![roleModel-create-response](/assets/roleModel-create-return.png)  
-- **[POST]**: ```http://localhost:8101/api-security/userModels/add-roleModel```, ```http://localhost:8101/api-security/userModels/remove-roleModel```: **affecter** un roleModel à un userModel  
-request1 -> ![userModel-roleModel-add](/assets/userModel-roleModel-add1.png) request2-> ![userModel-roleModel-add](/assets/userModel-roleModel-add2.png)  response ->  ![userModel-roleModel-add-response](/assets/userModel-roleModel-add-return.png) 
-    - le roleModel doit exister
-    - le userModel doit exister
-    - ```http://localhost:8101/api-security/userModels/add-roleModel```: le userModel ne doit pas posséder déjà ce roleModel
-    - ```http://localhost:8101/api-security/userModels/remove-roleModel```: le userModel doit posséder ce roleModel qu'on veut lui supprimer
+- **[POST]**: ```http://localhost:8101/api-security/roles```: **créer** un role  
+    - le role ne doit pas exister déjà
+    - le role doit être parmi une liste prédéfinie
+request payload -> ![role-create](/assets/role-create.png)  response ->  ![role-create-response](/assets/role-create-return.png)  
+- **[POST]**: ```http://localhost:8101/api-security/users/add-role```, ```http://localhost:8101/api-security/users/remove-role```: **affecter** un role à un user  
+request1 -> ![user-role-add](/assets/user-role-add1.png) request2-> ![user-role-add](/assets/user-role-add2.png)  response ->  ![user-role-add-response](/assets/user-role-add-return.png) 
+    - le role doit exister
+    - le user doit exister
+    - ```http://localhost:8101/api-security/users/add-role```: le user ne doit pas posséder déjà ce role
+    - ```http://localhost:8101/api-security/users/remove-role```: le user doit posséder ce role qu'on veut lui supprimer
 
 - **[POST]**: ```http://localhost:8101/api-security/login```: **authentifier** et **créer** le token JWT  
 equest payload -> ![jwt-create](/assets/jwt-create.png)  response ->  ![jwt-create-response](/assets/jwt-create-return.png)  
-    - le userModel doit être authentifié avec son username et son mot de passe  
-si le jeton d'accès a expiré, le userModel peut s'authentifier avec son jeton de refresh:  
+    - le user doit être authentifié avec son username et son mot de passe  
+si le jeton d'accès a expiré, le user peut s'authentifier avec son jeton de refresh:  
 equest payload -> ![jwt-create](/assets/jwt-create2.png)  response ->  ![jwt-create-response](/assets/jwt-create2-return.png)  
-    - le userModel doit être authentifié avec son jeton de refresh
+    - le user doit être authentifié avec son jeton de refresh
     - le jeton de refresh doit être valide  
 
 - Toutes les autres requêtes vers le **security microservice** et vers les **business microservices** suivants doivent être authentifiées avec le **JWT access token**
-- Selon la security policy mise en place dans le **microservices métiers**, seul les userModels avec les autorités **Admin**, **HR** et **CTO** ont le droit d'accès aux méthodes **POST** et **PUT**
+- Selon la security policy mise en place dans le **microservices métiers**, seul les users avec les autorités **Admin**, **HR** et **CTO** ont le droit d'accès aux méthodes **POST** et **PUT**
 
 ### exalt-business-microservice-customer
 
@@ -169,8 +171,8 @@ les conditions à être remplies pour que la request réussisse:
 
 - **[POST]** / **[PUT]**: ```http://localhost:8101/api-bank-account/accounts```: **créer** / **éditer** un bank account  
     - **bank-account api** intérroge le remote **customer api** pour récupérer les infos du customer associé au ***customerId*** fourni par le bank account api
-    - remote **customer api** intercepte la requête de **bank-account api** pour checker le JWT afin d'authentifier et autoriser le **userModel** de **bank-account api**
-    - le **userModel** doit avoir l'autorité soit **Admin**, **HR** ou **CTO**
+    - remote **customer api** intercepte la requête de **bank-account api** pour checker le JWT afin d'authentifier et autoriser le **user** de **bank-account api**
+    - le **user** doit avoir l'autorité soit **Admin**, **HR** ou **CTO**
 ![account-post](./assets/account-customer-post.png)  
 payload -> ![account-post](./assets/account-post.png) response -> ![account-post-return](./assets/account-post-return.png)   
 l'api **bank account** verifie que:
@@ -182,7 +184,7 @@ l'api **bank account** verifie que:
 ![account-customer](./assets/account-customer-post.png)  
 payload ![account-switch-state](./assets/switch-state.png) response -> ![account-switch-state-return](./assets/switch-state-return.png)  
 l'api **bank account** verifie que:
-    - le userModel (decoded JWT from http request) est soit **Admin**, **HR**, ou **CTO**
+    - le user (decoded JWT from http request) est soit **Admin**, **HR**, ou **CTO**
     - le compte existe
     - le compte n'est pas déjà dans le même state que le state fourni
     - le customer api de ce bank account est joignable (reachablea/unreachable) sinon une forme de résilience est renvoyée
@@ -191,7 +193,7 @@ l'api **bank account** verifie que:
 - **[POST]**: ```http://localhost:8101/api-bank-account/accounts/overdraft```: **update** le découvert d'un bank account  
 ![account-customer](./assets/account-customer-post.png)  
 l'api **bank account** verifie que:
-    - le userModel (decoded JWT from http request) est soit **Admin**, **HR**, ou **CTO**
+    - le user (decoded JWT from http request) est soit **Admin**, **HR**, ou **CTO**
     - le compte existe
     - le compte n'est pas suspendu
     - le compte n'est pas un compte epargne
@@ -208,13 +210,13 @@ payload -> ![operation-post](./assets/operation-post-2.png)   response -> ![oper
 payload -> ![operation-post](./assets/operation-post-3.png)   response -> ![operation-post-return](./assets/operation-post-3-return.png)  
 Pour enregistrer une opération de **dépot** ou de **retrait**, l'**api operation** vérifie que: 
     - le remote api **bank-account** est joignable
-    - remote **bank-account api** intercepte la requête de **operation api** pour checker le JWT afin d'authentifier et autoriser le **userModel** de **operation api**
+    - remote **bank-account api** intercepte la requête de **operation api** pour checker le JWT afin d'authentifier et autoriser le **user** de **operation api**
     - le remote api **customer** est joignable et que le **state** du customer est **active** 
-    - remote **customer api** intercepte la requête de **operation api** pour checker le JWT afin d'authentifier et autoriser le **userModel** de **operation api**
+    - remote **customer api** intercepte la requête de **operation api** pour checker le JWT afin d'authentifier et autoriser le **user** de **operation api**
     - le bank-account est de type **current**
     - si opération est **retrait** vérifier que la balance est suffisante: ```account.balance + account.overdraft >= operation.amount```
         - si OK, l'**api operation** demander le **remote bank account** de mettre à jour la balance: ```account.balance = account.balance - operation.mount```
-        - le remote **bank-account api** la requête de **operation api** pour checker le JWT afin d'authentifier et autoriser le **userModel** de **operation api**
+        - le remote **bank-account api** la requête de **operation api** pour checker le JWT afin d'authentifier et autoriser le **user** de **operation api**
     - si opération est de **depot**,l'**api operation** demander à le **remote bank account** de mettre à jour la balance: ```account.balance = account.balance + operation.mount```
 
 - **[GET]**: ```http://localhost:8101/api-operation/accounts/{accountId}/operations```: **consulter** les opérations d'un compte  

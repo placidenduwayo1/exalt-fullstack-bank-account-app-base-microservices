@@ -4,8 +4,8 @@ import fr.exalt.businessmicroservicespringsecurity.entities.dtos.RoleDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserRoleDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserUpdateDto;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.RoleModel;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.UserModel;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.Role;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.User;
 import fr.exalt.businessmicroservicespringsecurity.exceptions.*;
 import fr.exalt.businessmicroservicespringsecurity.services.UserService;
 import fr.exalt.businessmicroservicespringsecurity.servicesecurity.securitywebtoken.JwtDto;
@@ -25,35 +25,35 @@ public class SecurityApisController {
     private final UserService userService;
     private final JwtGeneratorService jwtGeneratorService;
     @PostMapping("/users")
-    public ResponseEntity<UserModel> createUser(@RequestBody UserDto dto) throws UserAlreadyExistsException,
+    public ResponseEntity<User> createUser(@RequestBody UserDto dto) throws UserAlreadyExistsException,
             UserInformationInvalidException, PasswordsNotMatchException {
-        UserModel userModel = userService.createUser(dto);
-        return new ResponseEntity<>(userModel, HttpStatus.OK);
+        User user = userService.createUser(dto);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
     @PostMapping("/roles")
-    public ResponseEntity<RoleModel> createRole(@RequestBody RoleDto dto) throws RoleInformationInvalidException, RoleAlreadyExistsException {
+    public ResponseEntity<Role> createRole(@RequestBody RoleDto dto) throws RoleInformationInvalidException, RoleAlreadyExistsException {
         return new ResponseEntity<>(userService.createRole(dto), HttpStatus.OK);
     }
     @PostMapping("/users/add-role")
-    public ResponseEntity<UserModel> userAddRole(@RequestBody UserRoleDto dto) throws UserNotFoundException, RoleNotFoundException,
+    public ResponseEntity<User> userAddRole(@RequestBody UserRoleDto dto) throws UserNotFoundException, RoleNotFoundException,
             UserPossessThisRoleException {
         return new ResponseEntity<>(userService.userAddRole(dto), HttpStatus.OK);
     }
     @GetMapping( "/users")
-    public ResponseEntity<Collection<UserModel>> getAllUsers(){
-        Collection<UserModel> userModels = userService.getAllUsers();
-        return new ResponseEntity<>(userModels, HttpStatus.OK);
+    public ResponseEntity<Collection<User>> getAllUsers(){
+        Collection<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
     @GetMapping("/users/{userId}")
-    public ResponseEntity<UserModel> getUser(@PathVariable(name = "userId") long userId) throws UserNotFoundException {
+    public ResponseEntity<User> getUser(@PathVariable(name = "userId") long userId) throws UserNotFoundException {
         return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
     }
     @GetMapping("/roles")
-    public ResponseEntity<Collection<RoleModel>> getAllRoles(){
+    public ResponseEntity<Collection<Role>> getAllRoles(){
         return new ResponseEntity<>(userService.geAllRoles(), HttpStatus.OK);
     }
     @GetMapping("/roles/{roleId}")
-    public ResponseEntity<RoleModel> getRole(@PathVariable(name = "roleId") long roleId) throws RoleNotFoundException {
+    public ResponseEntity<Role> getRole(@PathVariable(name = "roleId") long roleId) throws RoleNotFoundException {
         return new ResponseEntity<>(userService.getRole(roleId), HttpStatus.OK);
     }
     @PostMapping("/login")
@@ -62,7 +62,7 @@ public class SecurityApisController {
         return jwtGeneratorService.generateJwt(jwtDto);
     }
     @PostMapping("/users/remove-role")
-    public ResponseEntity<UserModel> userRemoveRole(@RequestBody UserRoleDto dto) throws UserNotFoundException, RoleNotFoundException, RoleNoAssignedTheUserException {
+    public ResponseEntity<User> userRemoveRole(@RequestBody UserRoleDto dto) throws UserNotFoundException, RoleNotFoundException, RoleNoAssignedTheUserException {
         return new ResponseEntity<>(userService.removeUserRole(dto),HttpStatus.OK);
     }
     @DeleteMapping("/users/{userId}")
@@ -70,7 +70,7 @@ public class SecurityApisController {
         userService.deleteUser(userId);
     }
     @PutMapping(value = "/users/{userId}")
-    public ResponseEntity<UserModel> editUserInformation(@PathVariable(name = "userId") long userId, @RequestBody UserUpdateDto dto) throws UserNotFoundException {
+    public ResponseEntity<User> editUserInformation(@PathVariable(name = "userId") long userId, @RequestBody UserUpdateDto dto) throws UserNotFoundException {
         return new ResponseEntity<>(userService.editUserInformation(userId, dto), HttpStatus.OK);
     }
 }

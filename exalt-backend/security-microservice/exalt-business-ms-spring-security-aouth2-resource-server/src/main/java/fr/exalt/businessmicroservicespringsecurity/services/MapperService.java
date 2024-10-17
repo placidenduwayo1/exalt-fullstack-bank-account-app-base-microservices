@@ -2,8 +2,8 @@ package fr.exalt.businessmicroservicespringsecurity.services;
 
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.RoleDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserDto;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.UserModel;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.RoleModel;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.User;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -13,8 +13,8 @@ public interface MapperService {
     @Mapping(target = "username", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "roles", ignore = true)
-    UserModel from(UserDto dto);
+    User from(UserDto dto);
     @Mapping(target = "roleId", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    RoleModel from (RoleDto dto);
+    Role from (RoleDto dto);
 }

@@ -15,8 +15,8 @@ public class ExceptionsHandler {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ApiError> handler(Exception exception){
         ApiError error1 = ApiError.builder()
-                .errorCode(HttpStatus.PRECONDITION_FAILED.value())
-                .errorType(HttpStatus.PRECONDITION_FAILED.name())
+                .errorCode(HttpStatus.UNAUTHORIZED.value())
+                .errorType(HttpStatus.UNAUTHORIZED.name())
                 .timestamp(Timestamp.from(Instant.now()))
                 .build();
         ApiError error2 = ApiError.builder()
@@ -42,7 +42,7 @@ public class ExceptionsHandler {
             }
             case RoleInformationInvalidException e ->{
                 error1.setMessage(e.getMessage());
-                return new ResponseEntity<>(error1, HttpStatus.PRECONDITION_FAILED);
+                return new ResponseEntity<>(error2, HttpStatus.BAD_REQUEST);
 
             }
             case UserNotFoundException e -> {
@@ -56,35 +56,39 @@ public class ExceptionsHandler {
             }
             case UserAlreadyExistsException e -> {
                 error1.setMessage(e.getMessage());
-                return new ResponseEntity<>(error1, HttpStatus.PRECONDITION_FAILED);
+                return new ResponseEntity<>(error3, HttpStatus.FORBIDDEN);
             }
             case RoleAlreadyExistsException e -> {
                 error1.setMessage(e.getMessage());
-                return new ResponseEntity<>(error1, HttpStatus.PRECONDITION_FAILED);
+                return new ResponseEntity<>(error3, HttpStatus.FORBIDDEN);
             }
             case PasswordsNotMatchException  e-> {
                 error1.setMessage(e.getMessage());
-                return new ResponseEntity<>(error1, HttpStatus.PRECONDITION_FAILED);
+                return new ResponseEntity<>(error2, HttpStatus.BAD_REQUEST);
             }
             case UserPossessThisRoleException e -> {
                 error1.setMessage(e.getMessage());
-                return new ResponseEntity<>(error1, HttpStatus.PRECONDITION_FAILED);
+                return new ResponseEntity<>(error3, HttpStatus.FORBIDDEN);
             }
             case RoleNoAssignedTheUserException e -> {
                 error1.setMessage(e.getMessage());
-                return new ResponseEntity<>(error1, HttpStatus.PRECONDITION_FAILED);
+                return new ResponseEntity<>(error2, HttpStatus.BAD_REQUEST);
             }
             case UserAuthenticationFailedException e -> {
                 error3.setMessage(e.getMessage());
-                return new ResponseEntity<>(error3, HttpStatus.PRECONDITION_FAILED);
+                return new ResponseEntity<>(error1, HttpStatus.UNAUTHORIZED);
             }
             case RefreshTokenMissException e -> {
                 error1.setMessage(e.getMessage());
-                return new ResponseEntity<>(error1, HttpStatus.PRECONDITION_FAILED);
+                return new ResponseEntity<>(error1, HttpStatus.UNAUTHORIZED);
             }
             default -> {
-                error1.setMessage(exception.getMessage());
-                return new ResponseEntity<>(error1, HttpStatus.PRECONDITION_FAILED);
+                return new ResponseEntity<>(ApiError.builder()
+                        .errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .errorType(HttpStatus.INTERNAL_SERVER_ERROR.name())
+                        .message(exception.getMessage())
+                        .timestamp(Timestamp.from(Instant.now()))
+                        .build(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
     }

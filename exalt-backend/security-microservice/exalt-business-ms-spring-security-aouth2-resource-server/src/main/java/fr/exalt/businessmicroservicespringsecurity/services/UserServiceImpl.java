@@ -2,11 +2,11 @@ package fr.exalt.businessmicroservicespringsecurity.services;
 
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserRoleDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserUpdateDto;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.UserModel;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.Role;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.User;
 import fr.exalt.businessmicroservicespringsecurity.exceptions.*;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.RoleDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserDto;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.RoleModel;
 import fr.exalt.businessmicroservicespringsecurity.repositories.RoleRepository;
 import fr.exalt.businessmicroservicespringsecurity.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -29,109 +28,108 @@ public class UserServiceImpl implements UserService {
     private final MapperService mapperService;
 
     @Override
-    public UserModel createUser(UserDto userDto) {
+    public User createUser(UserDto userDto) {
         if (UserRoleValidator.isInvalid(userDto)) {
             throw new UserInformationInvalidException(ExceptionE.USER_INFO);
         }
         String username = UserRoleValidator.buildUsername(userDto.getFirstname(), userDto.getLastname());
-        Optional<UserModel> user = userRepository.findByUsername(username);
-        if(user.isPresent()){
+       User user = userRepository.findByUsername(username);
+        if(UserRoleValidator.exists(user)){
             throw new UserAlreadyExistsException(ExceptionE.USER_EXISTS);
         }
-
         if(!UserRoleValidator.passwordsMatch(userDto.getPwd(), userDto.getPwd1())){
             throw new PasswordsNotMatchException(ExceptionE.PASSWORD_MATCH);
         }
-        UserModel mappedUserModel = mapperService.from(userDto);
-        mappedUserModel.setCreatedAt(Instant.now().toString());
-        mappedUserModel.setUsername(username);
-        mappedUserModel.setPwd(passwordEncoder.encode(userDto.getPwd()));
-        return userRepository.save(mappedUserModel);
+        User mappedUser = mapperService.from(userDto);
+        mappedUser.setCreatedAt(Instant.now().toString());
+        mappedUser.setUsername(username);
+        mappedUser.setPwd(passwordEncoder.encode(userDto.getPwd()));
+        return userRepository.save(mappedUser);
     }
 
     @Override
-    public UserModel userAddRole(UserRoleDto dto){
-        UserModel userModel = userRepository.findById(dto.getUserId()).orElseThrow(
+    public User userAddRole(UserRoleDto dto){
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(
                 () -> new UserNotFoundException(ExceptionE.USER_NOT_FOUND));
-        RoleModel roleModel = roleRepository.findByRoleName(dto.getRoleName());
-        if (roleModel == null)
+        Role role = roleRepository.findByRoleName(dto.getRoleName());
+        if (role == null)
             throw new RoleNotFoundException(ExceptionE.ROLE_NOT_FOUND);
-        Set<RoleModel> roleModels = userModel.getRoles();
-        if(roleModels.contains(roleModel))
+        Set<Role> roles = user.getRoles();
+        if(roles.contains(role))
             throw new UserPossessThisRoleException(ExceptionE.USER_POSSESS_ROLE);
-        roleModels.add(roleModel);
-        userModel.setRoles(roleModels);
-        return userRepository.save(userModel);
+        roles.add(role);
+        user.setRoles(roles);
+        return userRepository.save(user);
     }
 
     @Override
-    public Collection<UserModel> getAllUsers() {
+    public Collection<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public UserModel getUser(long userId) throws UserNotFoundException {
+    public User getUser(long userId) throws UserNotFoundException {
         return userRepository.findById(userId).orElseThrow(
                 () -> new UserNotFoundException(ExceptionE.USER_NOT_FOUND));
     }
 
     @Override
-    public RoleModel createRole(RoleDto dto){
+    public Role createRole(RoleDto dto){
         if (UserRoleValidator.isInvalid(dto)) {
             throw new RoleInformationInvalidException(ExceptionE.ROLE_INFO);
         }
         if (!UserRoleValidator.isValid(dto.getRoleName()))
             throw new RoleInformationInvalidException(ExceptionE.ROLE_INFO);
-        RoleModel roleModel = roleRepository.findByRoleName(dto.getRoleName());
-        if(UserRoleValidator.exists(roleModel))
+        Role role = roleRepository.findByRoleName(dto.getRoleName());
+        if(UserRoleValidator.exists(role))
             throw new RoleAlreadyExistsException(ExceptionE.ROLE_EXISTS);
-        RoleModel mappedRoleModel = mapperService.from(dto);
-        mappedRoleModel.setCreatedAt(Instant.now().toString());
-        return roleRepository.save(mappedRoleModel);
+        Role mappedRole = mapperService.from(dto);
+        mappedRole.setCreatedAt(Instant.now().toString());
+        return roleRepository.save(mappedRole);
     }
 
     @Override
-    public Collection<RoleModel> geAllRoles() {
+    public Collection<Role> geAllRoles() {
         return roleRepository.findAll();
     }
 
     @Override
-    public RoleModel getRole(long roleId){
+    public Role getRole(long roleId){
         return roleRepository.findById(roleId).orElseThrow(
                 () -> new RoleNotFoundException(ExceptionE.ROLE_NOT_FOUND));
     }
 
     @Override
-    public UserModel removeUserRole(UserRoleDto dto) {
-        UserModel userModel = getUser(dto.getUserId());
-        RoleModel roleModel = roleRepository.findByRoleName(dto.getRoleName());
-        if(!UserRoleValidator.exists(roleModel))
+    public User removeUserRole(UserRoleDto dto) {
+        User user = getUser(dto.getUserId());
+        Role role = roleRepository.findByRoleName(dto.getRoleName());
+        if(!UserRoleValidator.exists(role))
             throw new RoleNotFoundException(ExceptionE.ROLE_NOT_FOUND);
-        if(!userModel.getRoles().contains(roleModel))
+        if(!user.getRoles().contains(role))
             throw new RoleNoAssignedTheUserException(ExceptionE.USER_ROLE);
-        userModel.getRoles().remove(roleModel);
-        return userRepository.save(userModel);
+        user.getRoles().remove(role);
+        return userRepository.save(user);
     }
 
     @Override
     public void deleteUser(Integer userId) {
-        UserModel userModel = getUser(userId);
-        userRepository.delete(userModel);
+        User user = getUser(userId);
+        userRepository.delete(user);
     }
 
     @Override
-    public UserModel editUserInformation(long userId, UserUpdateDto dto){
-        UserModel userModel = getUser(userId);
+    public User editUserInformation(long userId, UserUpdateDto dto){
+        User user = getUser(userId);
         String username = UserRoleValidator.buildUsername(dto.getFirstname(), dto.getLastname());
-        userModel.setUsername(username);
-        userModel.setFirstname(dto.getFirstname());
-        userModel.setLastname(dto.getLastname());
-        userModel.setEmail(dto.getEmail());
+        user.setUsername(username);
+        user.setFirstname(dto.getFirstname());
+        user.setLastname(dto.getLastname());
+        user.setEmail(dto.getEmail());
         //unchangeable user values
-        userModel.setUserId(userId);
-        userModel.setPwd(userModel.getPwd());
-        userModel.setCreatedAt(userModel.getCreatedAt());
-        userModel.setRoles(userModel.getRoles());
-        return userRepository.save(userModel);
+        user.setUserId(userId);
+        user.setPwd(user.getPwd());
+        user.setCreatedAt(user.getCreatedAt());
+        user.setRoles(user.getRoles());
+        return userRepository.save(user);
     }
 }

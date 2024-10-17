@@ -4,23 +4,23 @@ import fr.exalt.businessmicroservicespringsecurity.entities.dtos.RoleDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserRoleDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserUpdateDto;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.RoleModel;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.UserModel;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.Role;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.User;
 
 import java.util.Collection;
 
 public interface UserService {
-    UserModel createUser(UserDto userDto);
-    UserModel userAddRole(UserRoleDto dto);
-    Collection<UserModel> getAllUsers();
-    UserModel getUser(long userId) ;
-    RoleModel createRole(RoleDto dto);
-    Collection<RoleModel> geAllRoles();
-    RoleModel getRole(long roleId);
+    User createUser(UserDto userDto);
+    User userAddRole(UserRoleDto dto);
+    Collection<User> getAllUsers();
+    User getUser(long userId) ;
+    Role createRole(RoleDto dto);
+    Collection<Role> geAllRoles();
+    Role getRole(long roleId);
 
-    UserModel removeUserRole(UserRoleDto dto);
+    User removeUserRole(UserRoleDto dto);
 
     void deleteUser(Integer userId);
 
-    UserModel editUserInformation(long userId, UserUpdateDto dto);
+    User editUserInformation(long userId, UserUpdateDto dto);
 }

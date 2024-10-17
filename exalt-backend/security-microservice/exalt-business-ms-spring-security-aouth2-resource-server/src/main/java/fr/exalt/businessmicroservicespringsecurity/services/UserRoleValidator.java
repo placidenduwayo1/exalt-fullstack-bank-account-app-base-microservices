@@ -2,9 +2,9 @@ package fr.exalt.businessmicroservicespringsecurity.services;
 
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.RoleDto;
 import fr.exalt.businessmicroservicespringsecurity.entities.dtos.UserDto;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.RoleModel;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.Role;
 import fr.exalt.businessmicroservicespringsecurity.entities.models.RoleEnum;
-import fr.exalt.businessmicroservicespringsecurity.entities.models.UserModel;
+import fr.exalt.businessmicroservicespringsecurity.entities.models.User;
 
 public class UserRoleValidator {
     private UserRoleValidator(){}
@@ -32,11 +32,11 @@ public class UserRoleValidator {
                 "."+lastname.strip().toLowerCase().replaceAll("\\s","-");
     }
 
-    public static boolean exists(UserModel userModel){
-        return userModel !=null;
+    public static boolean exists(User user){
+        return user !=null;
     }
-    public static boolean exists(RoleModel roleModel){
-        return roleModel !=null;
+    public static boolean exists(Role role){
+        return role !=null;
     }
 
     public static boolean passwordsMatch(String pwd1, String pwd2){
