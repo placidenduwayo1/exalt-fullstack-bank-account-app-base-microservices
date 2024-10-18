@@ -10,9 +10,11 @@ services:
       - bank-account-apis
     environment:
       MYSQL_DATABASE: bank_account_app_users
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pwd
+      MYSQL_ROOT_PASSWORD: pwd
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-proot" ]
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uuser", "-ppwd" ]
       interval: 5s
       timeout: 5s
       retries: 20

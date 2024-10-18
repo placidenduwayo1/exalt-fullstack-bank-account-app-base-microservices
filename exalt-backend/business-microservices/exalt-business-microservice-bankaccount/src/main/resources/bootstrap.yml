@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: exalt-business-microservice-bank-account
+  main:
+    banner-mode: off
+  cloud:
+    config:
+      uri: http://localhost:8100
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank_account_app_db?currentSchema=bank_account_schema
+    username: user
+    password: pwd
+  #producer part
+  kafka:
+    producer:
+      bootstrap-servers: http://localhost:9092,http://localhost:9093
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+    #consumer part
+    consumer:
+      bootstrap-servers: http://localhost:9092,http://localhost:9093
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        specific:
+          avro:
+            reader: true
+
+    # schema registry
+    properties:
+      schema:
+        registry:
+          url: http://localhost:8081
+
+  #flyway
+  flyway:
+    enabled=: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    default-schema: bank_account_schema
+    schemas: bank_account_schema
+    user: user
+    password: pwd
+
+rsa:
+  rsa-public-key: classpath:public-key/publicKey.pem
+
+# ----------------kafka infra--------------------
+# common properties producer /consumer
+kafka:
+  topic:
+    name: current-bank-account,saving-bank-account
+
+# maximum message retention
+topic:
+  retention: 3600000
+
+#registry service (deactivated because we use kubernetes)
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
