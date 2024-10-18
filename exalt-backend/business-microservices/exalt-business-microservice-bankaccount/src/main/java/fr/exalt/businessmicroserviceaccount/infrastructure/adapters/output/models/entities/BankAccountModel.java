@@ -17,9 +17,11 @@ import org.hibernate.annotations.GenericGenerator;
 public abstract class BankAccountModel {
     @Id
     @GenericGenerator(name = "uuid")
+    @Column(name = "account_id")
     private String accountId;
     private String state;
     private double balance;
+    @Column(name = "created_date")
     private String createdAt;
     @Column(name = "customer_id")
     private String customerId;

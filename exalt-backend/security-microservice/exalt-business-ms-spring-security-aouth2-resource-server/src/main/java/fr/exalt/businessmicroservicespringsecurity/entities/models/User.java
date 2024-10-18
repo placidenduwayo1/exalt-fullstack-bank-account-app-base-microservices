@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users_table", schema = "security_service_schema")
+@Table(name = "users_table")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
@@ -34,7 +34,7 @@ public class User {
     @Column(name = "created_date")
     private String createdAt;
     @ManyToMany @JoinTable(
-            name = "users_roles_association_table", schema = "security_service_schema",
+            name = "users_roles_association_table",
             joinColumns = {@JoinColumn(name = "user_Id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles = new HashSet<>();

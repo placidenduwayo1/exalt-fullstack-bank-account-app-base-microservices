@@ -78,9 +78,8 @@ L'application orientée microservice **Bank Account** est dimensionnée comme su
 
 # Backend
 - 3 business microservices ou microservices métiers: **bankaccount**, **customer** et **operation**
-    - les 3 microservice métiers mappent une base données ***PostgreSQL*** déployée dans  un ***docker container***
-- 1 business microservice de sécurité: **security-service**
-    - le microservice  de sécurité mappe une base de données **MySQL** déployée dans  un ***docker container*** pour gérér les **users** et les **roles**
+- 1 business microservice de sécurité: **security-service** pour gérér les **users** et les **roles**
+    - les business-microservice et le security-service mappent une base données ***MySQL*** déployée dans  un ***docker container***
 - 3 utils microservices ou microservices transverses: **configuration-service**, **registration-service** et **gateway-service-proxy**
     - plus loin, **registration-service** et **gateway-service-proxy** seront remplacés par kubernetes (pour l'**enregistrement**, le **loadbalancing** et **ingress-controller**)
 
