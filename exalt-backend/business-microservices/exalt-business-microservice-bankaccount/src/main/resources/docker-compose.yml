@@ -1,0 +1,20 @@
+services:
+  #-------------- database instance-------------------
+  geartrack-pg-db:
+    image: postgres:11.5
+    container_name: bank-account-api
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: bank_account_app_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pwd
+    volumes:
+      - bank_account_app_users_volume:/var/lib/postgresql/data
+    networks:
+      - bank-account-apis
+
+networks:
+  bank-account-apis:
+volumes:
+  bank_account_app_users_volume:
