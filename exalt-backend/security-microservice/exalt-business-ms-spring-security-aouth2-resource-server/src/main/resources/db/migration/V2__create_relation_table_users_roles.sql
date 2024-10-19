@@ -1,4 +1,4 @@
-create table if not exists security_service_schema.users_roles_association_table
+create table if not exists users_roles_association_table
 (
     user_id
     BIGINT

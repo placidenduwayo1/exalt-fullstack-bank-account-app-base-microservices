@@ -1,4 +1,4 @@
-create table if not exists security_service_schema.roles_table
+create table if not exists roles_table
 (
     id
     BIGINT
@@ -14,7 +14,7 @@ create table if not exists security_service_schema.roles_table
     255
 )
     );
-create table if not exists security_service_schema.users_table
+create table if not exists users_table
 (
     id
     BIGINT

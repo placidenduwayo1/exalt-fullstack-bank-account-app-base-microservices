@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "roles_table", schema = "security_service_schema")
+@Table(name = "roles_table")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,

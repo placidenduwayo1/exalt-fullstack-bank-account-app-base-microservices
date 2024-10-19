@@ -41,7 +41,7 @@ public class ExceptionsHandler {
                 return new ResponseEntity<>(error2, HttpStatus.BAD_REQUEST);
             }
             case RoleInformationInvalidException e ->{
-                error1.setMessage(e.getMessage());
+                error2.setMessage(e.getMessage());
                 return new ResponseEntity<>(error2, HttpStatus.BAD_REQUEST);
 
             }
@@ -55,27 +55,27 @@ public class ExceptionsHandler {
                 return new ResponseEntity<>(error4, HttpStatus.NOT_FOUND);
             }
             case UserAlreadyExistsException e -> {
-                error1.setMessage(e.getMessage());
+                error3.setMessage(e.getMessage());
                 return new ResponseEntity<>(error3, HttpStatus.FORBIDDEN);
             }
             case RoleAlreadyExistsException e -> {
-                error1.setMessage(e.getMessage());
+                error3.setMessage(e.getMessage());
                 return new ResponseEntity<>(error3, HttpStatus.FORBIDDEN);
             }
             case PasswordsNotMatchException  e-> {
-                error1.setMessage(e.getMessage());
+                error2.setMessage(e.getMessage());
                 return new ResponseEntity<>(error2, HttpStatus.BAD_REQUEST);
             }
             case UserPossessThisRoleException e -> {
-                error1.setMessage(e.getMessage());
+                error3.setMessage(e.getMessage());
                 return new ResponseEntity<>(error3, HttpStatus.FORBIDDEN);
             }
             case RoleNoAssignedTheUserException e -> {
-                error1.setMessage(e.getMessage());
+                error2.setMessage(e.getMessage());
                 return new ResponseEntity<>(error2, HttpStatus.BAD_REQUEST);
             }
             case UserAuthenticationFailedException e -> {
-                error3.setMessage(e.getMessage());
+                error1.setMessage(e.getMessage());
                 return new ResponseEntity<>(error1, HttpStatus.UNAUTHORIZED);
             }
             case RefreshTokenMissException e -> {

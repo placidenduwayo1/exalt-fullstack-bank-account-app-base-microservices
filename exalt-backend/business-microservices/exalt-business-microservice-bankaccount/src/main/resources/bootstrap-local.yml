@@ -3,14 +3,17 @@ spring:
     name: exalt-business-microservice-bank-account
   main:
     banner-mode: off
+
   cloud:
     config:
       uri: http://localhost:8100
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/bank_account_app_db?currentSchema=bank_account_schema
-    username: user
-    password: pwd
-  #producer part
+    url: jdbc:mysql://localhost:3306/bank_account_api_db
+    username: root
+    password: root
+
+  #kafka producer part
   kafka:
     producer:
       bootstrap-servers: http://localhost:9092,http://localhost:9093
@@ -22,7 +25,7 @@ spring:
             add:
               type:
                 headers: false
-  #consumer part
+  #kafka consumer part
     consumer:
       bootstrap-servers: http://localhost:9092,http://localhost:9093
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -43,15 +46,13 @@ spring:
     enabled=: true
     baseline-on-migrate: true
     baseline-version: 0
-    default-schema: bank_account_schema
-    schemas: bank_account_schema
-    user: user
-    password: pwd
+    user: root
+    password: root
 
+#provided public key
 rsa:
   rsa-public-key: classpath:public-key/publicKey.pem
 
-# ----------------kafka infra--------------------
 # common properties producer /consumer
 kafka:
   topic:

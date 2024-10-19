@@ -1,0 +1,30 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: exalt-business-ms-spring-security-aouth2-res-server
+  cloud:
+    config:
+      uri: http://localhost:8100
+  datasource:
+    url: jdbc:mysql://localhost:3306/security_service_users_db
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        default_schema: security_service_schema
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    user: root
+    password: root
+rsa:
+  public-key: classpath:certs/publicKey.pem
+  private-key: classpath:certs/privateKey.pem
+eureka:
+  client:
+    service-url:
+      defautZone: http://localhost:8761/eureka/
