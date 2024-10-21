@@ -1,4 +1,4 @@
-package fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models;
+package fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.dtos;
 
 import lombok.Builder;
 import lombok.Getter;

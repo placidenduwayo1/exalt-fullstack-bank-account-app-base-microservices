@@ -1,6 +1,6 @@
 package fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.repositories;
 
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.OperationModel;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.entities.OperationModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

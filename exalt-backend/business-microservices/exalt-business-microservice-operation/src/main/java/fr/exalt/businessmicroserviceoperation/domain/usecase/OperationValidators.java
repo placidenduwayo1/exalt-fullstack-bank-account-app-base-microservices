@@ -3,7 +3,7 @@ package fr.exalt.businessmicroserviceoperation.domain.usecase;
 import fr.exalt.businessmicroserviceoperation.domain.entities.BankAccount;
 import fr.exalt.businessmicroserviceoperation.domain.entities.OperationType;
 import fr.exalt.businessmicroserviceoperation.domain.finalvalues.FinalValues;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.OperationDto;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.dtos.OperationDto;
 
 public class OperationValidators {
     private OperationValidators() {

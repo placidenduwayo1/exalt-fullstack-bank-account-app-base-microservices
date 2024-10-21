@@ -11,9 +11,9 @@ import fr.exalt.businessmicroserviceoperation.domain.entities.TransferOperation;
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.input.feignclient.models.BankAccountDto;
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.input.feignclient.models.BankAccountModel;
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.input.feignclient.models.CustomerModel;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.OperationDto;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.OperationModel;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.TransferModel;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.dtos.OperationDto;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.entities.OperationModel;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.entities.TransferModel;
 import org.springframework.beans.BeanUtils;
 
 import java.time.Instant;

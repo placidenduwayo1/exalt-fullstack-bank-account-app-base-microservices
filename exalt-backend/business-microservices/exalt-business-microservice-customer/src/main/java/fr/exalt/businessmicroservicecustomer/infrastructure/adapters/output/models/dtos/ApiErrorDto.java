@@ -1,4 +1,4 @@
-package fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models;
+package fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -8,9 +8,9 @@ import lombok.Setter;
 import java.sql.Timestamp;
 
 @Builder
-@Setter
 @Getter
-public class ApiError {
+@Setter
+public class ApiErrorDto {
     private int errorCode;
     private String errorType;
     private String message;

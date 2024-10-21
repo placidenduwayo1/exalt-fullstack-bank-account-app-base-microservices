@@ -8,9 +8,10 @@ import fr.exalt.businessmicroservicecustomer.domain.ports.input.InputCustomerSer
 import fr.exalt.businessmicroservicecustomer.domain.ports.output.KafkaProducerService;
 import fr.exalt.businessmicroservicecustomer.domain.ports.output.OutputCustomerService;
 import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.mapper.MapperService1;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.AddressDto;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.CustomerSwitchStateDto;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.RequestDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.AddressDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.CustomerSwitchStateDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.RequestDto;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 import static fr.exalt.businessmicroservicecustomer.domain.finalvalues.FinalValues.INITIAL_STATE;
 
+@Slf4j
 public class InputCustomerImpl implements InputCustomerService {
     private final OutputCustomerService outputCustomerService;
     private final KafkaProducerService kafkaProducer;

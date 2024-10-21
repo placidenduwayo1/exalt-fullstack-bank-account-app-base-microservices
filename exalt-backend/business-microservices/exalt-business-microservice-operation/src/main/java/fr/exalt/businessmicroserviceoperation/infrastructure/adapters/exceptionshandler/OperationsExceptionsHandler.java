@@ -1,7 +1,7 @@
 package fr.exalt.businessmicroserviceoperation.infrastructure.adapters.exceptionshandler;
 
 import fr.exalt.businessmicroserviceoperation.domain.exceptions.*;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.ApiError;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.dtos.ApiErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,18 +13,18 @@ import java.time.Instant;
 @ControllerAdvice
 public class OperationsExceptionsHandler {
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ApiError> handleBusinessExceptions(Exception exception){
-        ApiError apiError1 = ApiError.builder()
+    public ResponseEntity<ApiErrorDto> handleBusinessExceptions(Exception exception){
+        ApiErrorDto apiErrorDto1 = ApiErrorDto.builder()
                 .errorCode(HttpStatus.PRECONDITION_FAILED.value())
                 .errorType(HttpStatus.PRECONDITION_FAILED.name())
                 .timestamp(Timestamp.from(Instant.now()))
                 .build();
-        ApiError apiError2 = ApiError.builder()
+        ApiErrorDto apiErrorDto2 = ApiErrorDto.builder()
                 .errorCode(HttpStatus.BAD_REQUEST.value())
                 .errorType(HttpStatus.BAD_REQUEST.name())
                 .timestamp(Timestamp.from(Instant.now()))
                 .build();
-        ApiError apiError3 = ApiError.builder()
+        ApiErrorDto apiErrorDto3 = ApiErrorDto.builder()
                 .errorCode(HttpStatus.SERVICE_UNAVAILABLE.value())
                 .errorType(HttpStatus.SERVICE_UNAVAILABLE.name())
                 .timestamp(Timestamp.from(Instant.now()))
@@ -32,42 +32,42 @@ public class OperationsExceptionsHandler {
 
         switch (exception) {
             case OperationRequestFieldsInvalidException e ->{
-                apiError2.setMessage(e.getMessage());
-                return new ResponseEntity<>(apiError2, HttpStatus.BAD_REQUEST);
+                apiErrorDto2.setMessage(e.getMessage());
+                return new ResponseEntity<>(apiErrorDto2, HttpStatus.BAD_REQUEST);
             }
             case OperationTypeInvalidException e -> {
-                apiError1.setMessage(e.getMessage());
-                return new ResponseEntity<>(apiError1, HttpStatus.PRECONDITION_FAILED);
+                apiErrorDto1.setMessage(e.getMessage());
+                return new ResponseEntity<>(apiErrorDto1, HttpStatus.PRECONDITION_FAILED);
             }
 
             case RemoteBankAccountApiUnreachableException e -> {
-                apiError3.setMessage(e.getMessage());
-                return new ResponseEntity<>(apiError3, HttpStatus.SERVICE_UNAVAILABLE);
+                apiErrorDto3.setMessage(e.getMessage());
+                return new ResponseEntity<>(apiErrorDto3, HttpStatus.SERVICE_UNAVAILABLE);
             }
             case RemoteBankAccountBalanceException e -> {
-                apiError1.setMessage(e.getMessage());
-                return new ResponseEntity<>(apiError1, HttpStatus.PRECONDITION_FAILED);
+                apiErrorDto1.setMessage(e.getMessage());
+                return new ResponseEntity<>(apiErrorDto1, HttpStatus.PRECONDITION_FAILED);
             }
 
             case RemoteBankAccountTypeInaccessibleFromOutsideException e -> {
-                apiError1.setMessage(e.getMessage());
-                return new ResponseEntity<>(apiError1, HttpStatus.PRECONDITION_FAILED);
+                apiErrorDto1.setMessage(e.getMessage());
+                return new ResponseEntity<>(apiErrorDto1, HttpStatus.PRECONDITION_FAILED);
             }
             case RemoteCustomerStateInvalidException e -> {
-                apiError1.setMessage(e.getMessage());
-                return new ResponseEntity<>(apiError1, HttpStatus.PRECONDITION_FAILED);
+                apiErrorDto1.setMessage(e.getMessage());
+                return new ResponseEntity<>(apiErrorDto1, HttpStatus.PRECONDITION_FAILED);
             }
             case RemoteCustomerApiUnreachableException e -> {
-                apiError3.setMessage(e.getMessage());
-                return new ResponseEntity<>(apiError3, HttpStatus.SERVICE_UNAVAILABLE);
+                apiErrorDto3.setMessage(e.getMessage());
+                return new ResponseEntity<>(apiErrorDto3, HttpStatus.SERVICE_UNAVAILABLE);
             }
             case RemoteAccountSuspendedException e -> {
-                apiError1.setMessage(e.getMessage());
-                return new ResponseEntity<>(apiError1, HttpStatus.PRECONDITION_FAILED);
+                apiErrorDto1.setMessage(e.getMessage());
+                return new ResponseEntity<>(apiErrorDto1, HttpStatus.PRECONDITION_FAILED);
             }
             default -> {
-                apiError1.setMessage(exception.getMessage());
-                return new ResponseEntity<>(apiError1, HttpStatus.PRECONDITION_FAILED);
+                apiErrorDto1.setMessage(exception.getMessage());
+                return new ResponseEntity<>(apiErrorDto1, HttpStatus.PRECONDITION_FAILED);
             }
         }
     }

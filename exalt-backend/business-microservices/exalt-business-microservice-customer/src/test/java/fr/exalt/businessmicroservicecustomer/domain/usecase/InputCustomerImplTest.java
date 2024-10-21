@@ -4,10 +4,13 @@ import fr.exalt.businessmicroservicecustomer.domain.avrobeans.CustomerAvro;
 import fr.exalt.businessmicroservicecustomer.domain.entities.Address;
 import fr.exalt.businessmicroservicecustomer.domain.entities.Customer;
 import fr.exalt.businessmicroservicecustomer.domain.exceptions.*;
-import fr.exalt.businessmicroservicecustomer.domain.ports.output.KafkaProducerService;
 import fr.exalt.businessmicroservicecustomer.domain.ports.output.OutputCustomerService;
 import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.mapper.MapperService1;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.*;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.AddressDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.CustomerDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.CustomerSwitchStateDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.RequestDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities.Request;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +29,6 @@ class InputCustomerImplTest {
 
     @Mock
     private OutputCustomerService mock1;
-    @Mock
-    private KafkaProducerService mock2;
     @InjectMocks
     private InputCustomerImpl underTest;
     private static final String FIRSTNAME = "placide";

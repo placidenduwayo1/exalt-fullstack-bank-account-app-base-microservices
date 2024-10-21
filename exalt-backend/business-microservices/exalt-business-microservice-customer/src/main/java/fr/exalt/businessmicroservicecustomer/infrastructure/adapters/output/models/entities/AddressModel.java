@@ -1,8 +1,10 @@
-package fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models;
+package fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,10 +13,9 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "addresses")
 @Setter
 @Getter
-@ToString
 public class AddressModel {
     @Id
-    @GenericGenerator(name = "uuid")
+    @UuidGenerator
     private String addressId;
     private int streetNum;
     private String streetName;

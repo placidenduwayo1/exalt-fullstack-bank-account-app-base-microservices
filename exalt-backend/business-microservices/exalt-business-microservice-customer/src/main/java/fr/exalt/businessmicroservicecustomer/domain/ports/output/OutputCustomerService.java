@@ -3,10 +3,8 @@ package fr.exalt.businessmicroservicecustomer.domain.ports.output;
 import fr.exalt.businessmicroservicecustomer.domain.avrobeans.CustomerAvro;
 import fr.exalt.businessmicroservicecustomer.domain.entities.Address;
 import fr.exalt.businessmicroservicecustomer.domain.entities.Customer;
-import fr.exalt.businessmicroservicecustomer.domain.exceptions.AddressNotFoundException;
-import fr.exalt.businessmicroservicecustomer.domain.exceptions.CustomerNotFoundException;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.CustomerDto;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.Request;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.CustomerDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities.Request;
 
 import java.util.Collection;
 

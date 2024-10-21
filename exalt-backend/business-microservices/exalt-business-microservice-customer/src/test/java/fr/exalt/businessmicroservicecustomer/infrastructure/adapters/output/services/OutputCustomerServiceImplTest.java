@@ -2,10 +2,12 @@ package fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.ser
 
 import fr.exalt.businessmicroservicecustomer.domain.entities.Address;
 import fr.exalt.businessmicroservicecustomer.domain.entities.Customer;
-import fr.exalt.businessmicroservicecustomer.domain.exceptions.AddressNotFoundException;
-import fr.exalt.businessmicroservicecustomer.domain.exceptions.CustomerNotFoundException;
 import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.mapper.MapperService1;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.*;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.AddressDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.CustomerDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities.AddressModel;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities.CustomerModel;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities.Request;
 import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.repositories.AddressRepository;
 import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
