@@ -1,6 +1,6 @@
 package fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.repositories;
 
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.TransferModel;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.entities.TransferModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

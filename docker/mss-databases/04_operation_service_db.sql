@@ -1,1 +1,1 @@
-create database if not exists customer_api_db;
+create database if not exists operation_api_db;

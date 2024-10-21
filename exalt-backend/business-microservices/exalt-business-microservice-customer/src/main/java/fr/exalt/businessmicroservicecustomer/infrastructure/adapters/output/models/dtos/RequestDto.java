@@ -1,4 +1,4 @@
-package fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models;
+package fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos;
 
 import lombok.*;
 

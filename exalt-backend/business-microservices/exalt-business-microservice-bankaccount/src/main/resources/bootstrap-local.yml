@@ -51,7 +51,7 @@ spring:
 
 #provided public key
 rsa:
-  rsa-public-key: classpath:public-key/publicKey.pem
+  rsa-public-key: classpath:certificate/publicKey.pem
 
 # common properties producer /consumer
 kafka:

@@ -3,7 +3,7 @@ package fr.exalt.businessmicroserviceaccount.infrastructure.adapters.output.mode
 import fr.exalt.businessmicroserviceaccount.infrastructure.adapters.input.feignclient.models.CustomerModel;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 @Setter
 @Getter
@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 @DiscriminatorColumn(name = "type", length = 7)
 public abstract class BankAccountModel {
     @Id
-    @GenericGenerator(name = "uuid")
+    @UuidGenerator
     @Column(name = "account_id")
     private String accountId;
     private String state;

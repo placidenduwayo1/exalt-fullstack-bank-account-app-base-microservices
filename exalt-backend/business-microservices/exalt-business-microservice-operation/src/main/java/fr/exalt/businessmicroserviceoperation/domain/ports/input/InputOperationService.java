@@ -4,9 +4,8 @@ import fr.exalt.businessmicroserviceoperation.domain.entities.BankAccount;
 import fr.exalt.businessmicroserviceoperation.domain.entities.Operation;
 
 import fr.exalt.businessmicroserviceoperation.domain.entities.TransferOperation;
-import fr.exalt.businessmicroserviceoperation.domain.exceptions.*;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.OperationDto;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.TransferDto;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.dtos.OperationDto;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.dtos.TransferDto;
 
 import java.util.Collection;
 import java.util.Map;

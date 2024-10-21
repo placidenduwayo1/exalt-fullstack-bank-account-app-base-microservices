@@ -2,9 +2,9 @@ package fr.exalt.businessmicroservicecustomer.domain.ports.input;
 
 import fr.exalt.businessmicroservicecustomer.domain.entities.Address;
 import fr.exalt.businessmicroservicecustomer.domain.entities.Customer;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.AddressDto;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.CustomerSwitchStateDto;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.RequestDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.AddressDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.CustomerSwitchStateDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.RequestDto;
 
 import java.util.Collection;
 

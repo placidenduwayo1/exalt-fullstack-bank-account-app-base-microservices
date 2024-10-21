@@ -1,22 +1,22 @@
 spring:
   application:
-    name: exalt-business-microservice-bank-account
+    name: exalt-business-microservice-operation
   main:
     banner-mode: off
 
   cloud:
     config:
-      uri: exalt-microservices-configuration-server:8100
+      uri: http://localhost:8100
 
   datasource:
-    url: jdbc:mysql://bank-account-app-apis-dbs:3306/bank_account_api_db
+    url: jdbc:mysql://localhost:3306/operation_api_db
     username: root
     password: root
 
   #kafka producer part
   kafka:
     producer:
-      bootstrap-servers: kafka-server1:9092,kafka-server2:9093
+      bootstrap-servers: http://localhost:9092,http://localhost:9093
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       properties:
@@ -27,7 +27,7 @@ spring:
                 headers: false
     #kafka consumer part
     consumer:
-      bootstrap-servers: kafka-server1:9092,kafka-server2:9093
+      bootstrap-servers: http://localhost:9092,http://localhost:9093
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       properties:
@@ -39,7 +39,7 @@ spring:
     properties:
       schema:
         registry:
-          url: schema-registry-service:8081
+          url: http://localhost:8081
 
   #flyway
   flyway:
@@ -56,7 +56,7 @@ rsa:
 # common properties producer /consumer
 kafka:
   topic:
-    name: current-bank-account,saving-bank-account
+    name: depot-retrait-operation,transfer-operation
 
 # maximum message retention
 topic:
@@ -66,4 +66,4 @@ topic:
 eureka:
   client:
     service-url:
-      defaultZone: exalt-microservices-registration-server:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/

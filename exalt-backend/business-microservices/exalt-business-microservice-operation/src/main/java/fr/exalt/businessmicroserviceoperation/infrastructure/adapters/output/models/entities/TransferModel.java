@@ -1,9 +1,12 @@
-package fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models;
+package fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.entities;
 
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.input.feignclient.models.BankAccountModel;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 @Builder
 @Setter
@@ -15,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "transfers")
 public class TransferModel {
     @Id
-    @GenericGenerator(name = "uuid")
+    @UuidGenerator
     private String transferId;
     private String origin;
     @Transient

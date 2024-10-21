@@ -13,8 +13,8 @@ import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.input.feig
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.input.feignclient.proxies.RemoteAccountServiceProxy;
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.input.feignclient.proxies.RemoteCustomerServiceProxy;
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.mapper.MapperService;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.OperationModel;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.TransferModel;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.entities.OperationModel;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.entities.TransferModel;
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.repositories.OperationRepository;
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.repositories.TransferRepository;
 import org.springframework.beans.factory.annotation.Qualifier;

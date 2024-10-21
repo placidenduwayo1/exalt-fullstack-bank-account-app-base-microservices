@@ -1,8 +1,8 @@
-package fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models;
+package fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 @ToString
 public class CustomerModel {
     @Id
-    @GenericGenerator(name = "uuid")
+    @UuidGenerator
     private String customerId;
     private String firstname;
     private String lastname;

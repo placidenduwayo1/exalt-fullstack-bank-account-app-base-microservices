@@ -14,8 +14,8 @@ import fr.exalt.businessmicroserviceoperation.domain.ports.output.KafkaProducerS
 import fr.exalt.businessmicroserviceoperation.domain.ports.output.OutputOperationService;
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.input.feignclient.models.BankAccountDto;
 import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.mapper.MapperService;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.OperationDto;
-import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.TransferDto;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.dtos.OperationDto;
+import fr.exalt.businessmicroserviceoperation.infrastructure.adapters.output.models.dtos.TransferDto;
 
 import java.time.Instant;
 import java.util.*;

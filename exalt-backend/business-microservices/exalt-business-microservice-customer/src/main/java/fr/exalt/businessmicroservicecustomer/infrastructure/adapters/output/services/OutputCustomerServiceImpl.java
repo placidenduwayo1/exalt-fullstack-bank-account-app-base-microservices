@@ -8,10 +8,14 @@ import fr.exalt.businessmicroservicecustomer.domain.exceptions.CustomerNotFoundE
 import fr.exalt.businessmicroservicecustomer.domain.finalvalues.FinalValues;
 import fr.exalt.businessmicroservicecustomer.domain.ports.output.OutputCustomerService;
 import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.mapper.MapperService1;
-import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.*;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.dtos.CustomerDto;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities.AddressModel;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities.CustomerModel;
+import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.models.entities.Request;
 import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.repositories.AddressRepository;
 import fr.exalt.businessmicroservicecustomer.infrastructure.adapters.output.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.PartitionOffset;
 import org.springframework.kafka.annotation.TopicPartition;
@@ -19,15 +23,13 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Service
 @Transactional
+@Slf4j
 public class OutputCustomerServiceImpl implements OutputCustomerService {
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
-    private final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
     public OutputCustomerServiceImpl(CustomerRepository customerRepository, AddressRepository addressRepository) {
         this.customerRepository = customerRepository;
@@ -53,7 +55,7 @@ public class OutputCustomerServiceImpl implements OutputCustomerService {
             topicPartitions = @TopicPartition(topic = "customer",
                     partitionOffsets = @PartitionOffset(partition = "0", initialOffset = "0")))
     public Request createCustomerKafkaConsumer(@Payload CustomerAvro avro) {
-        logger.log(Level.INFO, "customer with address to create in db {0}", avro);
+        log.error("customer with address to create in db {}", avro);
         return getRequest(avro);
     }
 
@@ -118,7 +120,7 @@ public class OutputCustomerServiceImpl implements OutputCustomerService {
             topicPartitions = @TopicPartition(topic = "customer",
                     partitionOffsets = @PartitionOffset(partition = "1", initialOffset = "0")))
     public Request updateCustomerKafkaConsumer(@Payload CustomerAvro avro) {
-        logger.log(Level.INFO, "customer with address to update and save in db {0}", avro);
+        log.info("customer with address to update and save in db {}", avro);
         return getRequest(avro);
     }
 
@@ -134,7 +136,7 @@ public class OutputCustomerServiceImpl implements OutputCustomerService {
             topicPartitions = @TopicPartition(topic = "customer",
                     partitionOffsets = @PartitionOffset(partition = "1",initialOffset = "0")))
     public Customer switchCustomerStateKafkaConsumer(@Payload CustomerAvro avro) {
-        logger.log(Level.INFO,"customer to switch state and save in db {0}",avro);
+        log.info("customer to switch state and save in db {}",avro);
         Customer customer = MapperService1.fromCustomerAvro(avro);
         CustomerModel savedCustomer = customerRepository.findById(customer.getCustomerId()).orElseThrow(
                 () -> new CustomerNotFoundException(FinalValues.CUSTOMER_NOT_FOUND));
