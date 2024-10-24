@@ -1,24 +1,24 @@
 spring:
   application:
-    name: exalt-business-microservice-bank-account
+    name: ${APPLICATION_NAME}
   main:
     banner-mode: off
 
   cloud:
     config:
-      uri: exalt-microservices-configuration-server:8100
+      uri: ${CONFIGURATION_SERVER_HOST}:${CONFIGURATION_SERVER_PORT}
 
   datasource:
-    url: jdbc:mysql://bank-account-app-apis-dbs:3306/bank_account_api_db
-    username: root
-    password: root
+    url: jdbc:mysql://${DATABASE_HOSTNAME}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
 
   #kafka producer part
   kafka:
     producer:
-      bootstrap-servers: kafka-server1:9092,kafka-server2:9093
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      bootstrap-servers: ${KAFKA_BROKER_HOST1}:${KAFKA_BROKER_PORT1},${KAFKA_BROKER_HOST2}:${KAFKA_BROKER_PORT2}
+      key-serializer: ${KAFKA_KEY_SERIALIZER}
+      value-serializer: ${KAFKA_VALUE_SERIALIZER}
       properties:
         spring:
           json:
@@ -27,9 +27,9 @@ spring:
                 headers: false
     #kafka consumer part
     consumer:
-      bootstrap-servers: kafka-server1:9092,kafka-server2:9093
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      bootstrap-servers: ${KAFKA_BROKER_HOST1}:${KAFKA_BROKER_PORT1},${KAFKA_BROKER_HOST2}:${KAFKA_BROKER_PORT2}
+      key-deserializer: ${KAFKA_KEY_DESERIALIZER}
+      value-deserializer: ${KAFKA_VALUE_DESERIALIZER}
       properties:
         specific:
           avro:
@@ -39,15 +39,15 @@ spring:
     properties:
       schema:
         registry:
-          url: schema-registry-service:8081
+          url: ${SCHEMA_REGISTRY_SERVER_HOST}:${SCHEMA_REGISTRY_SERVER_PORT}
 
   #flyway
   flyway:
     enabled=: true
     baseline-on-migrate: true
     baseline-version: 0
-    user: root
-    password: root
+    user: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
 
 #provided public key
 rsa:
@@ -56,14 +56,14 @@ rsa:
 # common properties producer /consumer
 kafka:
   topic:
-    name: current-bank-account,saving-bank-account
+    name: ${KAFKA_APPLICATION_TOPIC_NAME1},${KAFKA_APPLICATION_TOPIC_NAME2}
 
 # maximum message retention
 topic:
-  retention: 3600000
+  retention: ${KAFKA_APPLICATION_TOPIC_RETENTION}
 
 #registry service (deactivated because we use kubernetes)
 eureka:
   client:
     service-url:
-      defaultZone: exalt-microservices-registration-server:8761/eureka/
+      defaultZone: ${SERVICES_REGISTRY_SERVER_HOST}:${SERVICES_REGISTRY_SERVER_PORT}/eureka/

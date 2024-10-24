@@ -2,29 +2,25 @@ spring:
   main:
     banner-mode: off
   application:
-    name: exalt-business-ms-spring-security-aouth2-res-server
+    name: ${APPLICATION_NAME}
   cloud:
     config:
-      uri: http://localhost:8100
+      uri: ${CONFIGURATION_SERVER_HOST}:${CONFIGURATION_SERVER_PORT}
   datasource:
-    url: jdbc:mysql://localhost:3306/security_service_users_db
-    username: root
-    password: root
+    url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    properties:
-      hibernate:
-        default_schema: security_service_schema
   flyway:
     enabled: true
     baseline-on-migrate: true
     baseline-version: 0
-    user: root
-    password: root
+    user: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
 rsa:
-  public-key: classpath:certs/publicKey.pem
-  private-key: classpath:certs/privateKey.pem
+  public-key: ${PUBLIC_KEY}
+  private-key: ${PRIVATE_KEY}
 eureka:
   client:
     service-url:
-      defautZone: http://localhost:8761/eureka/
+      defautZone: ${SERVICES_REGISTRY_SERVER_HOST}:${SERVICES_REGISTRY_SERVER_PORT}/eureka/

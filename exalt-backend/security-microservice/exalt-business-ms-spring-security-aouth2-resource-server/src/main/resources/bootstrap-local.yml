@@ -13,11 +13,6 @@ spring:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  jpa:
-    properties:
-      hibernate:
-        default_schema: security_service_schema
-
   flyway:
     enabled: true
     baseline-on-migrate: true
