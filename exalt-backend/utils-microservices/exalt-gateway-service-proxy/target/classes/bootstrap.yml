@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: exalt-gateway-service-proxy
+  main:
+    banner-mode: off
+  cloud:
+    config:
+      uri: ${SPRING_CLOUD_CONFIG_SERVER_URI_2}
+    gateway:
+      routes:
+        - id: exalt-business-ms-spring-security-aouth2-res-server
+          uri: http://exalt-business-ms-spring-security-aouth2-res-server:8102
+          predicates:
+            - Path=/api-security/**
+
+        - id: exalt-business-microservice-customer
+          uri: http://exalt-business-microservice-customer:8103
+          predicates:
+            - Path=/api-customer/**
+
+        - id: exalt-business-microservice-bank-account
+          uri: http://exalt-business-microservice-bank-account:8104
+          predicates:
+            - Path=/api-bank-account/**
+
+        - id: exalt-business-microservice-operation
+          uri: http://exalt-business-microservice-operation:8105
+          predicates:
+            - Path=/api-operation/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowed-headers: "*"
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://exalt-microservices-registration-server:8761/eureka/

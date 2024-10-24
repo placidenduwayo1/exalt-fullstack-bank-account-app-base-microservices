@@ -6,5 +6,4 @@
 **/target
 **/*.cmd
 **/*.html
-**/*-local.yml
-.env
+**/**/bootstrap-local.yml
