@@ -1,0 +1,10 @@
+*.idea
+**/*.log
+**/*.iml
+**/*.class
+**/*.jar
+**/target
+**/*.cmd
+**/*.html
+**/*-local.yml
+.env
